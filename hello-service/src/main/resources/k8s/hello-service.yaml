@@ -1,0 +1,43 @@
+apiVersion: apps/v1 # 版本号
+kind: Deployment # 类型
+metadata: # 元数据
+  name: hello-service-deploy # deployment的名称
+  namespace: gray # 命名类型
+spec: # 详细描述
+  replicas: 2 # 副本数量
+  selector: # 选择器，通过它指定该控制器可以管理哪些Pod
+    matchLabels: # Labels匹配规则
+      app: hello-service
+  template: # 模块 当副本数据不足的时候，会根据下面的模板创建Pod副本
+    metadata:
+      labels:
+        app: hello-service
+    spec:
+      containers:
+        - name: hello-service
+          image: registry.cn-hangzhou.aliyuncs.com/demo-ns-p/demo:hello-service-v1.0
+          ports:
+            - containerPort: 8763 # 容器所监听的端口
+          env:
+            # 部署环境，指定是灰度还是正式
+            - name: deploy.env
+              value: GRAY
+            - name: deploy.namespace
+              value: prod
+            - name: nacos.server-addr
+              value: 192.168.220.125:8848
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hello-service-svc
+  namespace: gray
+spec:
+  type: NodePort
+  selector:
+    app: hello-service
+  ports:
+    -  port: 8081 #service（对内）的端口
+       protocol: TCP
+       targetPort: 8763 #pod的端口
+       nodePort: 32001 #service（对外）的端口

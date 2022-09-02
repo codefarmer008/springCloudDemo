@@ -1,0 +1,24 @@
+server:
+  port: 8765
+spring:
+  application:
+    name: consumer-feign
+  cloud:
+    nacos:
+      config:
+        server-addr: ${nacos.server-addr}
+        file-extension: yml
+        group: ${deploy.env}
+        namespace: ${deploy.namespace}
+      discovery:
+        server-addr: ${nacos.server-addr}
+        metadata:
+          deploy.env: ${deploy.env}   #服务注册时会在元数据中添加该项配置
+        namespace: ${deploy.namespace}
+#    sentinel:
+#      transport:
+#        port: 8719
+#        dashboard: 192.168.220.125:8858
+#feign:
+#  sentinel:
+#    enabled: true
