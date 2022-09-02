@@ -16,22 +16,30 @@ spring:
         metadata:
           deploy.env: ${deploy.env}   #服务注册时会在元数据中添加该项配置
         namespace: ${deploy.namespace}
-#    sentinel:
-#      transport:
-#        port: 8719
-#        dashboard: 192.168.220.125:8858
-#      datasource:
-#        ds-flow:
-#          nacos:
-#            server-addr: ${nacos.server-addr}
-#            data-id: hello-service-sentinel
-#            group-id: ${deploy.env}
-#            namespace: ${deploy.namespace}
-#            data-type: json
-#            rule-type: flow
-#feign:
-#  sentinel:
-#    enabled: true
+    sentinel:
+      transport:
+        port: 8719
+        dashboard: 192.168.220.125:8858
+      datasource:
+        ds-flow:
+          nacos:
+            server-addr: ${nacos.server-addr}
+            data-id: hello-service-sentinel-flow
+            group-id: ${deploy.env}
+            namespace: ${deploy.namespace}
+            data-type: json
+            rule-type: flow
+        ds-degrade:
+          nacos:
+            server-addr: ${nacos.server-addr}
+            data-id: hello-service-sentinel-degrade
+            group-id: ${deploy.env}
+            namespace: ${deploy.namespace}
+            data-type: json
+            rule-type: degrade
+feign:
+  sentinel:
+    enabled: true
 
 #  zipkin:
 #    base-url: http://localhost:9411
