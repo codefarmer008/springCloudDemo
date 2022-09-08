@@ -11,6 +11,8 @@
     <modules>
         <module>hello-service</module>
         <module>consumer-feign</module>
+        <module>stock</module>
+        <module>order</module>
     </modules>
 
     <parent>

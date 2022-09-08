@@ -1,0 +1,38 @@
+server:
+  port: 9091
+spring:
+  application:
+    name: order-service
+  cloud:
+    nacos:
+      config:
+        server-addr: 192.168.220.125:8848
+        file-extension: yml
+      discovery:
+        # Nacos 注册中心地址
+        server-addr: 192.168.220.125:8848
+    # seata 服务分组，要与服务端nacos-config.txt中service.vgroup_mapping的后缀对应
+    alibaba:
+      seata:
+        tx-service-group: my_test_tx_group
+  # 数据源配置
+  datasource:
+    url: jdbc:mysql://192.168.220.125:3306/seata_order?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true
+    driverClassName: com.mysql.cj.jdbc.Driver
+    username: root
+    password: Root123
+seata:
+  registry: # TC服务注册中心的配置，微服务根据这些信息去注册中心获取tc服务地址
+    # 参考tc服务自己的registry.conf中的配置
+    type: nacos
+    nacos: # tc
+      server-addr: 192.168.220.125:8848
+      namespace: ""
+      group: SEATA_GROUP
+      application: seata-server # tc服务在nacos中的服务名称
+  tx-service-group: my_test_tx_group # 事务组，根据这个获取tc服务的cluster名称
+
+logging:
+  level:
+    io:
+      seata: debug
