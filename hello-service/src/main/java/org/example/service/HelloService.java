@@ -29,7 +29,7 @@ public class HelloService {
         logger.info("===== hello-service/hi ============"+env);
 //        User user = new User();
 //        user.setId(2);
-//        user.setName("wuzb");
+//        user.setName(name);
 //        user.setPwd("123455");
 //        userMapper.addUser(user);
         return "hi " + name + " ,i am at env:" + env+", ip:"+ InetAddress.getLocalHost().getHostAddress();

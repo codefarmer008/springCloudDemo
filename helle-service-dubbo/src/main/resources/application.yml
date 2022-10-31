@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: hello-service-dubbo-provider
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.220.125:3306/mall?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8
+    username: root
+    password: Root123
+
+mybatis:
+  mapper-locations: classpath:mybatis/mapper/*.xml
+
+dubbo:
+  application:
+    name: hello-service-dubbo-provider
+  protocol:
+    name: dubbo
+    port: -1
+  registry:
+    id: nacos-registry
+    address: nacos://192.168.220.125:8848
+  config-center:
+    address: nacos://192.168.220.125:8848
+  metadata-report:
+    address: nacos://192.168.220.125:8848
+
