@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>商品搜索</title>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/vue.js"></script>
+    <style>
+        body {
+            font: 12px/150% tahoma,arial,Microsoft YaHei,Hiragino Sans GB,"\u5b8b\u4f53",sans-serif;
+            -webkit-font-smoothing: antialiased;
+            color: #666;
+            background: #fff;
+        }
+        ol, ul {
+            list-style: none;
+        }
+
+        li {
+            display: list-item;
+            text-align: -webkit-match-parent;
+        }
+        .goods-list-v2 {
+            margin-bottom: 20px;
+            margin: 0 auto;
+            width: 990px;
+            height: auto;
+            position: relative;
+            z-index: 1;
+            _zoom: 1;
+        }
+
+        .goods-list-v2 .gl-warp {
+            width: 1200px;
+            height: auto;
+            margin-right: -40px;
+        }
+
+        .goods-list-v2 .gl-item {
+            width: 240px;
+            height: 350px;
+            float: left;
+            position: relative;
+            z-index: 1;
+            _display: inline;
+            margin-right: 40px;
+            margin-top: 10px;
+        }
+
+        .goods-list-v2.gl-type-3 .gl-item .gl-i-wrap {
+            padding: 12px 9px;
+        }
+        .goods-list-v2 .gl-item .gl-i-wrap {
+            width: 220px;
+            position: absolute;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            background: #fff;
+            border: 1px solid #fff;
+            padding: 38px 9px 10px;
+            transition: border-color .1s ease;
+        }
+
+        .goods-list-v2 .gl-item .p-img {
+            height: 220px;
+            padding: 0;
+            margin-bottom: 5px;
+            position: relative;
+        }
+
+        .goods-list-v2 .gl-item .p-price {
+            position: relative;
+            line-height: 22px;
+            height: 22px;
+            overflow: hidden;
+            width: 100%;
+            margin: 0 0 8px;
+        }
+
+        .goods-list-v2 .gl-item .p-price strong {
+            float: left;
+            margin-right: 10px;
+            color: #e4393c;
+            font-size: 20px;
+        }
+
+        .goods-list-v2.gl-type-3 .gl-item .p-name-type-2, .goods-list-v2.gl-type-3 .gl-item .p-name-type-3 {
+            height: 40px;
+        }
+        .goods-list-v2 .gl-item .p-name {
+            height: 40px;
+            margin-bottom: 8px;
+            overflow: hidden;
+        }
+        .goods-list-v2.gl-type-3 .gl-item .p-name {
+            height: 40px;
+            line-height: 20px;
+        }
+
+        .goods-list-v2.gl-type-3 .gl-item .p-name em, .goods-list-v2.gl-type-3 .gl-item .p-name i {
+            display: inline;
+            height: auto;
+        }
+
+        em, i, u {
+            font-style: normal;
+        }
+
+        .goods-list-v2 .gl-item .p-shop {
+            line-height: 18px;
+            height: 18px;
+            overflow: hidden;
+            margin-top: -3px;
+            margin-bottom: 9px;
+        }
+
+        .goods-list-v2 .gl-item .p-shop span {
+            display: inline-block;
+            position: relative;
+            height: 18px;
+        }
+
+        .gl-item .hd-shopname {
+            display: inline-block;
+            max-width: 122px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .goods-list-v2 .gl-item .p-shop span .im-01, .goods-list-v2 .gl-item .p-shop span .im-02, .goods-list-v2 .gl-item .p-shop span .im-offline {
+            cursor: pointer;
+            position: absolute;
+            right: -21px;
+            top: 1px;
+            display: block;
+        }
+
+        .im-01, .im-02, .im-offline {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            background: url(//misc.360buyimg.com/product/search/1.0.8/css/i/bg-im@1x.png) no-repeat;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <form id="formId">
+        商品名称：<input type="text" id="keywords" name="keywords" v-model="keywords"><br/>
+        <input type="button" id="btn" @click="submitForm()" value="搜索">
+    </form>
+    <div id="J_goodsList" class="goods-list-v2 gl-type-3 J-goods-list">
+        <ul class="gl-warp clearfix" data-tpl="3">
+            <li data-sku="10064967079079" data-spu="10023381930842" ware-type="1" class="gl-item" v-for="item in goodsList">
+                <div class="gl-i-wrap">
+                    <div class="p-img">
+                        <a target="_blank" :title="item.desc" href="//item.jd.com/10064967079079.html">
+                            <img width="220" height="220" data-img="1" data-lazy-img="done" source-data-lazy-img="" :src="item.img">
+                        </a>
+
+                        <div data-lease="" data-catid="27769" data-venid="10220233" data-presale="0" data-done="1"></div>
+                    </div>
+
+                    <div class="p-price">
+                        <strong class="J_10064967079079" data-presale="0" data-done="1" stock-done="1">
+                            <em>￥</em><i data-price="10064967079079">{{item.price}}</i>
+                        </strong>
+                    </div>
+                    <div class="p-name p-name-type-2">
+                        <a target="_blank" :title="item.desc" href="//item.jd.com/10064967079079.html" >
+                            <em v-html="item.name"></em>
+                        </a>
+                    </div>
+
+                    <div class="p-shop" data-dongdong="" data-selfware="0" data-score="5" data-reputation="100" data-done="1">
+                        <span class="J_im_icon"><a target="_blank" class="curr-shop hd-shopname" onclick="searchlog(1,'10083927',0,58)" href="//mall.jd.com/index-10083927.html?from=pc" title="八哥官方旗舰店">八哥官方旗舰店</a><b class="im-01" style="background:url(//img14.360buyimg.com/uba/jfs/t26764/156/1205787445/713/9f715eaa/5bc4255bN0776eea6.png) no-repeat;" title="联系客服" onclick="searchlog(1,10083927,0,61)"></b></span>
+                    </div>
+                    <div class="p-icons" id="J_pro_10064967079079" data-done="1">
+                    </div>
+                </div>
+            </li>
+
+        </ul>
+        <span class="clr"></span>
+    </div>
+</div>
+<script>
+        let vue = new Vue({
+            el: '#app',
+            data: {
+                goodsList: [],
+                keywords: "汉服女"
+            },
+            methods: {
+                submitForm: function () {
+                    // $.post(url, 表单参数序列化, function(data){...})
+
+                    // 点击按钮时，发起起步请求，提交表单（异步表单提交）
+                    // $("#formId").ajaxSubmit();   // 将表单转成异步表单，并提交
+                    // $("#formId").ajaxForm();     // 将表单转成异步表单，不提交
+                    $.post({
+                       url: "http://localhost:9528/goods/queryGoodsByName",
+                       type: "GET",
+                       data: {"keywords": $("#keywords").val()},
+                       success: function (data) {
+                           if (data) {
+                               // 操作成功跳转
+                               vue.goodsList = data;
+                           }
+                       }
+                    });
+                }
+            },
+            mounted: function () {
+                let _this = this;
+                $.ajax({
+                    url: "http://localhost:9528/goods/queryGoodsByName?keywords=汉服女",
+                    type: "GET",
+                    success: function (data) {
+                        console.log(_this);
+                        _this.goodsList = data;
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

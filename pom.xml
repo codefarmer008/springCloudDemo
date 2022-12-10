@@ -16,6 +16,7 @@
         <module>helle-service-dubbo</module>
         <module>consumer-dubbo</module>
         <module>hello-service-api</module>
+        <module>elasticsearch-service</module>
     </modules>
 
     <parent>

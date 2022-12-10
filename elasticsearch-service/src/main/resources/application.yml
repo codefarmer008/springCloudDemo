@@ -1,0 +1,15 @@
+server:
+  port: 9528
+
+spring:
+  application:
+    name: elasticsearch-service
+
+elasticsearch:
+  schema: http
+  address: 192.168.220.125:9200
+  connectTimeout: 5000
+  socketTimeout: 5000
+  connectionRequestTimeout: 5000
+  maxConnectNum: 100
+  maxConnectPerRoute: 100
