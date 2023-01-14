@@ -1,0 +1,61 @@
+server:
+  port: 8790
+spring:
+  application:
+    name: shardingSphere-jdbc
+  shardingsphere:
+    props:
+      sql-show: true
+    datasource:
+      names: ds0,ds1
+      ds0:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbc-url: jdbc:mysql://192.168.220.125:3306/ds0
+        username: root
+        password: Root123
+      ds1:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbc-url: jdbc:mysql://192.168.220.125:3306/ds1
+        username: root
+        password: Root123
+    rules:
+      sharding:
+        tables:
+          t_order:
+            actual-data-nodes: ds$->{0..1}.t_order_$->{0..1}  # 配置 t_order 表规则
+            database-strategy: # 配置分库策略
+              standard:
+                sharding-column: user_id
+                sharding-algorithm-name: database-inline
+            table-strategy: # 配置分表策略
+              standard:
+                sharding-column: order_id
+                sharding-algorithm-name: table-inline
+            keyGenerateStrategy:
+              column: id
+              keyGeneratorName: snowflake
+          t_goods:
+            actual-data-nodes: ds1.t_goods_$->{1..4}  # 配置 t_goods 表规则
+            table-strategy: # 配置分表策略
+              standard:
+                sharding-column: cat_id
+                sharding-algorithm-name: table-cat-id
+            keyGenerateStrategy:
+              column: id
+              keyGeneratorName: snowflake
+        sharding-algorithms:
+          database-inline:
+            type: INLINE
+            props:
+              algorithm-expression: ds$->{user_id % 2}
+          table-inline:
+            type: INLINE
+            props:
+              algorithm-expression: t_order_$->{order_id % 2}
+          table-cat-id:
+            type: CATID
+        keyGenerators:
+          snowflake:
+            type: SNOWFLAKE

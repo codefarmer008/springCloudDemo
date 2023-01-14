@@ -17,6 +17,7 @@
         <module>consumer-dubbo</module>
         <module>hello-service-api</module>
         <module>elasticsearch-service</module>
+        <module>shardingSphere-jdbc</module>
     </modules>
 
     <parent>
